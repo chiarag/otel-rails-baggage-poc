@@ -18,8 +18,10 @@ pickle-email-*.html
 /dice-multiply/tmp/*
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
-config/initializers/secret_token.rb
-config/master.key
+/dice/config/initializers/secret_token.rb
+/dice/config/master.key
+/dice-multiply/config/initializers/secret_token.rb
+/dice-multiply/config/master.key
 
 # IDE
 */.idea
