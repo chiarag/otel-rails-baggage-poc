@@ -6,10 +6,16 @@ That request is a POST with a URL param. Dice expects Multiply running on 4010.
 
 Dice Service: GET http://localhost:[port]/rolldice
 
-Environment variables are important to start up with so that Open Telemetry enables trace parent and baggage. 
+Environment variables are important to start up with so that Open Telemetry
+enables trace parent and baggage. More on options that can be set can be found
+[here](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/) 
 
+```
+# Note: "none" is also a valid value here according to the docs. Seems like
+# maybe something we might want if we truly don't care about the traces.
 OTEL_TRACES_EXPORTER=console
 OTEL_PROPAGATORS=tracecontext,baggage
+```
 
 What I found in this deployment is that the trace parent (transmitted on header `HTTP_TRACEPARENT`) worked without doing anything other than the opentemeletry.rb configuration file.
 

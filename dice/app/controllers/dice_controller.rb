@@ -10,7 +10,7 @@ class DiceController < ApplicationController
     # in order to propogate baggage, the least janky way I've found is to attach it as when you build it
     # it returns a brand new context, but does to associate this context with the current or the current entries
     context_with_baggage = OpenTelemetry::Baggage.build { |b| b.set_value('lost_bag', 'where is it?') }
-    OpenTelemetry::Context.attach(context_with_baggage)
+    token = OpenTelemetry::Context.attach(context_with_baggage)
 
     url = URI.parse("http://localhost:4010/multiply/#{roll}")
     http = Net::HTTP.new(url.host, url.port)
@@ -18,6 +18,8 @@ class DiceController < ApplicationController
 
     response = http.request(request)
     data = JSON.parse(response.body)
+
+    OpenTelemetry::Context.detach(token)
 
     render json: data
   end
